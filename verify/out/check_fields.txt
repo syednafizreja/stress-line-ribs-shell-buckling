@@ -1,0 +1,7 @@
+plate a=4.0 m t=0.1 m h=0.1 m, 6400 S8R; centre element 5948 at (1.975,1.975)
+sxx at integration points 1-8 [kPa]:    610.9    610.6    611.0    610.8   -610.9   -610.6   -611.0   -610.8
+mean sxx ips [5, 6, 7, 8] = -610.8 kPa (expected < 0, top)
+mean sxx ips [1, 2, 3, 4] = 610.8 kPa (expected > 0, bottom)
+m11 = -1763.3, m22 = -1763.3, m12 = 0.4 N m/m;  reference -1732.8  ratio 1.0176
+|n|max = 0.00 N/m (expected ~0)
+PASS
