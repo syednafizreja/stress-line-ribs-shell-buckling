@@ -1,0 +1,9 @@
+IFC4 export check: schema errors from ifcopenshell.validate; closed-solid volume vs FE volume
+(the FE volume counts rib crossings twice and the rib boxes overlap there in the same way)
+
+P2_A.ifc     errors   0  members   0  V_fe 9.6692  V_ifc 9.6672  diff -0.02 %
+P2_B.ifc     errors   0  members  14  V_fe 9.7380  V_ifc 9.7273  diff -0.11 %
+P2_C.ifc     errors   0  members   8  V_fe 9.6692  V_ifc 9.6614  diff -0.08 %
+P2_D.ifc     errors   0  members  12  V_fe 9.6692  V_ifc 9.6668  diff -0.02 %
+P2_Dd.ifc    errors   0  members   8  V_fe 9.6692  V_ifc 9.6724  diff +0.03 %
+P2_Dx.ifc    errors   0  members   5  V_fe 9.6692  V_ifc 9.6786  diff +0.10 %
