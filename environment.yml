@@ -1,0 +1,16 @@
+# Runs in the existing conda env "research" (shared with ShellBench; do not upgrade numpy/scipy/matplotlib/pandas there).
+# Versions recorded 17 Nov 2026.
+name: research
+dependencies:
+  - python=3.12
+  - numpy==2.5.4
+  - scipy==1.18.1
+  - matplotlib==3.11.2
+  - calculix=2.23      # ccx; needs Library/mingw-w64/bin on PATH -> use cecore.env.setup_ccx()
+  - pip:
+      - gmsh==4.15.2
+      - meshio
+      - cma==4.6.0
+      - pyvista==0.49.2
+      - -e ../cecore    # shared: ccx env helper + stress-line tracer
+      - -e ../../ShellBench   # import only (formfind, calculix); never edit from here

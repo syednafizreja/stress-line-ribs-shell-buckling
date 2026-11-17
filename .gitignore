@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.frd
+*.sta
+*.cvg
+*.12d
+spooles.out
+results/*/
+verify/out/*.tmp
+*.egg-info/

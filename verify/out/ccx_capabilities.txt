@@ -1,0 +1,13 @@
+ccx: ccx (CalculiX, conda-forge build)
+version: This is Version 2.23
+
+T1 column: closed-form P_cr = 301.57 kN
+  a_nopre: rc=0 lambda1=3.0065  lambda*P_buck=300.65 kN
+  b_pre100_buck100: rc=0 lambda1=3.0065  lambda*P_buck=300.65 kN
+  c_pre100_buck50: rc=0 lambda1=6.0129  lambda*P_buck=300.65 kN
+  no-preload error vs closed form: -0.31 %
+  RESULT: preload is ignored; lambda scales the buckle-step load alone.
+
+T2 S8R + offset B32R T-strip: rc=0 uz_mid=1.1253 mm, hand T-beam -1.0833 mm, ratio 1.039
+
+T3 *STATIC, RIKS: rc=0; messages:  *WARNING reading *STATIC: parameter not recognized: |  *WARNING reading *STATIC. Card image: |  *WARNING reading *STATIC: a nonlinear analysis is requested
