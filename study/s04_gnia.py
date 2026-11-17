@@ -4,7 +4,7 @@ For each variant (A uniform, C and D ribbed, E zonal optimum) at equal volume V6
   1. LBA in the governing lateral direction (the worst of 0 and 45 deg; by D4 symmetry these two
      bound all eight for A, C, D and the d4 E design);
   2. mode-1 imperfection with amplitude w0 = L/300, L/500, L/1000 (L = 12 m plan span; the L/500
-     value is Claude's reference choice, author to confirm against the code basis used);
+     value is the reference choice, author to confirm against the code basis used);
      both signs of the mode (the weaker one governs);
   3. NLGEOM load control up to 1.2 lambda_LBA x (G + 0.2 g lateral); the limit is the last
      converged increment (CalculiX has no arc-length option for this input).

@@ -5,7 +5,7 @@ lowest positive factor of 10 modes (so a switch of the critical mode is handled 
 Volume is held at V60 exactly by the projection in ribshell.zonal; CMA-ES searches in
 x = log(u), so the design is positive and scale-free.
 
-Two stages (Claude's design, author to confirm):
+Two stages (see docs/decisions.md; author to confirm):
   1. "d4":   6 variables (D4 orbits of a 5 x 5 zoning), theta in {0, 45}: by symmetry these two
              directions give the minimum over all eight (checked in s02 for every D4 layout).
   2. "free": 25 variables, no symmetry, all eight directions, warm-started at the stage-1 optimum.

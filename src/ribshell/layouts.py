@@ -54,13 +54,13 @@ def traced_layout(name: str, res: Resultants, tensor: np.ndarray, span: float = 
                              symmetry=symmetry)
     # a line lying along a pinned edge adds nothing for buckling (the edge is already restrained) and
     # only takes rib volume: drop lines whose median distance to the boundary is below EDGE_CLEAR
-    # (Claude's choice, author to confirm)
+    # (see docs/decisions.md; author to confirm)
     keep = [ln for ln in lines
             if np.median(np.minimum.reduce([ln[:, 0], span - ln[:, 0], ln[:, 1], span - ln[:, 1]])) >= EDGE_CLEAR]
     return Layout(name, keep)
 
 
-# Tracing settings (Claude's choice, recorded in STATUS; author to confirm):
+# Tracing settings (see docs/decisions.md; author to confirm):
 #  C - the gravity membrane field is strong everywhere but close to isotropic near the crown, so only
 #      a low anisotropy cut-off (0.02) is used.
 #  D, Dx - the moment field is concentrated near edges and corners; below 15 % of its maximum the
