@@ -1,0 +1,10 @@
+Sway probe, t = 60 mm, h = 0.4 m, lambda_1 of 10 modes
+case            a_h   lam_g     lam_c(0)  lam_c(45)  lam_c    lam_c/lam_g
+edge-pinned     0.15    369.77    348.65    353.75    348.65   0.943
+edge-pinned     0.20    369.77    341.21    348.08    341.21   0.923
+edge-pinned     0.30    369.77    327.04    336.97    327.04   0.884
+edge-pinned     0.40    369.77    313.81    326.21    313.81   0.849
+corner+edgebeam 0.15    227.37    221.93    219.80    219.80   0.967
+corner+edgebeam 0.20    227.37    220.09    217.25    217.25   0.955
+corner+edgebeam 0.30    227.37    216.42    212.24    212.24   0.933
+corner+edgebeam 0.40    227.37    212.79    207.36    207.36   0.912

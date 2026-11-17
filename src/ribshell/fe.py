@@ -46,9 +46,20 @@ class Model:
     thickness: float | dict[int, float]      # uniform, or element -> thickness
     ribs: list[Rib] = field(default_factory=list)
     normals: dict[int, np.ndarray] = field(default_factory=dict)  # node -> unit surface normal (ribs)
+    surface: object | None = None            # form.Surface; fills rib normals when ``normals`` is empty
+    supports: set[int] | None = None         # pinned nodes; default: every plan-boundary node
     e: float = E
     nu: float = NU
     rho: float = RHO
+
+    def __post_init__(self) -> None:
+        if self.ribs and not self.normals:
+            if self.surface is None:
+                raise ValueError("rib models need `surface` (or explicit `normals`) for the rib orientation")
+            mids = [mid for r in self.ribs for _, mid, _ in self.mesh.ribs[r.rib_id]]
+            xy = np.array([self.mesh.nodes[n][:2] for n in mids])
+            nv = self.surface.normal(xy[:, 0], xy[:, 1])
+            self.normals = {n: nv[k] for k, n in enumerate(mids)}
 
     def t_of(self, e: int) -> float:
         return self.thickness if isinstance(self.thickness, float) else self.thickness[e]
@@ -104,7 +115,8 @@ def _model_cards(m: Model) -> list[str]:
             beam_id += 1
     if rib_sets:
         s += ["*ELSET,ELSET=RIBS"] + [",".join(rib_sets[k:k + 8]) for k in range(0, len(rib_sets), 8)]
-    s += _set("EDGE", mesh.edge_nodes) + ["*BOUNDARY", "EDGE,1,3"]
+    sup = mesh.edge_nodes if m.supports is None else m.supports
+    s += _set("EDGE", sup) + ["*BOUNDARY", "EDGE,1,3"]
     s += _set("ALLN", mesh.nodes)
     return s
 
