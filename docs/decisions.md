@@ -15,6 +15,8 @@ This file lists two kinds of entries. Some are checks added beyond the scope doc
 | Limit-point versus solver-stop classification | `study/s04_gnia.py` | CalculiX has no arc-length method, so each GNIA stop is classified by its end secant stiffness. A solver stop is never reported as a buckling load. | Applied to every GNIA row. |
 | Both imperfection signs | `study/s04_gnia.py` | Runs the mode-1 imperfection in both signs. The weaker sign governs. | Applied to every GNIA row. |
 | Tool environment fix | `src/cecore/env.py`, `tests/test_env.py` | `setup_ccx` grew PATH on every call and crashed long runs (0xC0000017). It now adds only the missing entries, and a test checks this. | Fixed; the test passes. |
+| Export round-trip check | `study/s07_exports.py`, `exports/ifc_check.txt` | Each IFC4 file is re-opened, validated against the schema, and its tessellated solid volume is compared with the model volume, so the BIM files carry the analysed geometry and not a drawing of it. | All six files: 0 schema errors; volume within 0.11 % of the model (A -0.02 %, B -0.11 %, C -0.08 %, D -0.02 %, Dd +0.03 %, Dx +0.10 %). The DXF passes the ezdxf audit. |
+| One-command reproduction | `reproduce.py` | Runs the checks, the study, the exports and the figures in order, so a reader can rebuild every number from a fresh clone. | `--quick` rebuilds figures and exports from `results/` in a few minutes. |
 
 ## Choices to be confirmed by the author
 
@@ -28,3 +30,7 @@ This file lists two kinds of entries. Some are checks added beyond the scope doc
 | Carbon factor | `study/s05_volume_sweep.py` | 0.120 kgCO2e/kg A1-A3 (band 0.063 to 0.149): IStructE (2022), *How to calculate embodied carbon*, 2nd ed., Table 2.3, UK in-situ C32/40 with 25 % GGBS, from the ICE database (2020). The table has no C30/37 row, so the next class up is used, which is on the high side. Reinforcement is excluded. *Author to confirm.* |
 | Imperfect-model rib orientation | `src/ribshell/gnia.py`, `src/ribshell/fe.py` | The rib normals of the imperfect model come from the perfect surface. n1 is formed from the displaced tangent, so the section stays perpendicular to the rib; the tilt of n2 is about w0 / (half-wave) < 0.03 rad and is neglected. Stated as a limitation. |
 | Vendoring `cecore` | `src/cecore/` | `cecore` (commit 8202eb8) is copied into this repository so that a fresh clone installs with `pip install -e .`; ShellBench is installed from its v1.0.0 DOI release. *Author to confirm.* |
+
+## Record keeping
+
+- The planning brief written before the study held private planning notes. It was replaced by the public scope document `docs/scope.md`, which keeps the research question, hypothesis, model, variants, methods, checks and outputs word for word, with only the timeline and the planning notes taken out. The brief was removed from the repository history so the public history matches the public scope.

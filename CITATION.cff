@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this code or its results, please cite it as below."
+type: software
+title: "Stress-line ribs versus optimised thickness for buckling of a thin concrete shell floor under combined gravity and sway"
+abstract: >-
+  A fixed-volume comparison of a uniform 60 mm form-found concrete shell, a dense rib grid,
+  three principal-stress-line rib layouts and a zonally optimised thickness, scored by the
+  linear buckling factor under gravity plus 0.2 g sway in the worst direction, with a
+  geometrically nonlinear imperfection check, a volume sweep and IFC4/DXF exports.
+authors:
+  - family-names: "Hasib"
+    given-names: "Syed Nafiz Reja"
+    orcid: "https://orcid.org/0009-0002-7162-7890"
+repository-code: "https://github.com/syednafizreja/stress-line-ribs-shell-buckling"
+license: MIT
+date-released: "2026-11-17"
+keywords:
+  - thin shell
+  - buckling
+  - stress lines
+  - ribbed shell
+  - CalculiX
+  - embodied carbon
