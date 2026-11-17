@@ -6,8 +6,13 @@ T1 column: closed-form P_cr = 301.57 kN
   b_pre100_buck100: rc=0 lambda1=3.0065  lambda*P_buck=300.65 kN
   c_pre100_buck50: rc=0 lambda1=6.0129  lambda*P_buck=300.65 kN
   no-preload error vs closed form: -0.31 %
-  RESULT: preload is ignored; lambda scales the buckle-step load alone.
+  RESULT (a-c): without PERTURBATION the preload is dropped; lambda scales the buckle-step load alone.
+  d_pert_pre100_buck50: rc=0 lambda1=4.0113  lambda*50+100 = 300.56 kN (error vs P_cr -0.33 %)
+  e_pert_nlgeom_pre100_buck50: rc=0 lambda1=3.9975  lambda*50+100 = 299.87 kN (error vs P_cr -0.56 %)
 
-T2 S8R + offset B32R T-strip: rc=0 uz_mid=1.1253 mm, hand T-beam -1.0833 mm, ratio 1.039
+T2 S8R + offset B32R T-strip (S8R nodes counter-clockwise from above -> normal +z; beam along +x, n1=(0,1,0) -> n2 = t x n1 = +z)
+  offset-, P+: rc=0 uz_mid=+1.1253 mm, |hand| 1.0833 mm, ratio 1.039; frd node z range [-0.025, +0.175] m
+  offset+, P+: rc=0 uz_mid=+1.1253 mm, |hand| 1.0833 mm, ratio 1.039; frd node z range [-0.175, +0.025] m
+  offset+, P-: rc=0 uz_mid=-1.1253 mm, |hand| 1.0833 mm, ratio 1.039; frd node z range [-0.175, +0.025] m
 
 T3 *STATIC, RIKS: rc=0; messages:  *WARNING reading *STATIC: parameter not recognized: |  *WARNING reading *STATIC. Card image: |  *WARNING reading *STATIC: a nonlinear analysis is requested

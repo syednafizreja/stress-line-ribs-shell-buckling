@@ -9,7 +9,10 @@ import importlib
 import numpy as np
 
 for m in ("numpy", "scipy", "matplotlib", "gmsh", "meshio", "cma", "pymoo", "pyvista",
-          "shellbench.formfind", "shellbench.calculix", "shellbench.diaphragm", "cecore.env"):
+          "ifcopenshell", "ezdxf", "imageio",
+          "shellbench.formfind", "shellbench.calculix", "shellbench.diaphragm",
+          "shellbench.shellfe", "shellbench.generator", "shellbench.rsa", "shellbench.carbon",
+          "cecore.env"):
     mod = importlib.import_module(m)
     print(f"ok  {m:24s} {getattr(mod, '__version__', '')}")
 

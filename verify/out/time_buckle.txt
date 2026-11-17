@@ -1,0 +1,9 @@
+Buckle timing, uniform t = 60 mm, pinned edges, 10 modes, 4 threads
+h=0.60 m  elems= 1600 nodes=  4961  lateral  wall=   3.1 s  peakRAM=    233 MB  solver=SPOOLES  lambda1=3557.5890
+h=0.60 m  elems= 1600 nodes=  4961  combined wall=   2.4 s  peakRAM=    242 MB  solver=SPOOLES  lambda1=341.4142
+h=0.40 m  elems= 3600 nodes= 11041  lateral  wall=   7.6 s  peakRAM=    547 MB  solver=SPOOLES  lambda1=3555.5920
+h=0.40 m  elems= 3600 nodes= 11041  combined wall=   6.0 s  peakRAM=    535 MB  solver=SPOOLES  lambda1=341.2093
+h=0.30 m  elems= 6408 nodes= 19545  lateral  wall=  16.1 s  peakRAM=    999 MB  solver=SPOOLES  lambda1=3555.2700
+h=0.30 m  elems= 6408 nodes= 19545  combined wall=  12.7 s  peakRAM=   1021 MB  solver=SPOOLES  lambda1=341.1752
+h=0.20 m  elems=14400 nodes= 43681  lateral  wall=  45.9 s  peakRAM=   2388 MB  solver=SPOOLES  lambda1=3555.1560
+h=0.20 m  elems=14400 nodes= 43681  combined wall=  54.9 s  peakRAM=   2399 MB  solver=SPOOLES  lambda1=341.1629
