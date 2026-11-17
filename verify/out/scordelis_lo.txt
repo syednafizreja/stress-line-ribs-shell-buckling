@@ -1,0 +1,7 @@
+Scordelis-Lo roof, S8R (ShellBench model, ccx as used in P2), reference 0.3024
+8 x 8 elements: u = 0.30325, u/ref = 1.0028
+16 x 16 elements: u = 0.30196, u/ref = 0.9985
+24 x 24 elements: u = 0.30192, u/ref = 0.9984
+32 x 32 elements: u = 0.30192, u/ref = 0.9984
+finest mesh error -0.16 %  (limit 2 %)
+PASS

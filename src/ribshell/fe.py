@@ -98,6 +98,8 @@ def _model_cards(m: Model) -> list[str]:
     # ribs: one ELSET per beam element, because n1 changes along a curved rib on a curved surface
     beam_id = max(mesh.quads) + 1
     rib_sets = []
+    # node -> one element containing it (local shell thickness under a rib); built per deck, never cached
+    shell_at = {n: e for e, c in mesh.quads.items() for n in c} if m.ribs else {}
     for r in m.ribs:
         for a, mid, b in mesh.ribs[r.rib_id]:
             pa, pb = np.array(mesh.nodes[a]), np.array(mesh.nodes[b])
@@ -106,7 +108,7 @@ def _model_cards(m: Model) -> list[str]:
             n1 = np.cross(n2, t)
             n1 /= np.linalg.norm(n1)
             name = f"B{beam_id}"
-            t_sh = m.t_of(_shell_at(mesh, mid))
+            t_sh = m.t_of(shell_at[mid])
             off2 = (t_sh / 2 + r.depth / 2) / r.depth  # rib axis below the mid-surface
             s += [f"*ELEMENT,TYPE=B32R,ELSET={name}", f"{beam_id},{a},{mid},{b}",
                   f"*BEAM SECTION,ELSET={name},MATERIAL=C,SECTION=RECT,OFFSET2={off2:.6f}",
@@ -121,18 +123,6 @@ def _model_cards(m: Model) -> list[str]:
     return s
 
 
-_shell_of_node: dict[int, dict[int, int]] = {}
-
-
-def _shell_at(mesh: ShellMesh, node: int) -> int:
-    """An element containing ``node`` (to read the local shell thickness under a rib)."""
-    key = id(mesh)
-    if key not in _shell_of_node:
-        _shell_of_node.clear()
-        _shell_of_node[key] = {n: e for e, c in mesh.quads.items() for n in c}
-    return _shell_of_node[key][node]
-
-
 def _grav(g: float, d) -> list[str]:
     els = ["SHELL", "RIBS"]
     return ["*DLOAD"] + [f"{s},GRAV,{g:.10g},{d[0]:.10g},{d[1]:.10g},{d[2]:.10g}" for s in els]
@@ -144,7 +134,7 @@ def lateral_dir(angle_deg: float) -> tuple[float, float, float]:
 
 
 def buckle_deck(m: Model, kind: str, angle_deg: float = 0.0, a_h: float = A_H, modes: int = 10,
-                solver: str | None = None) -> str:
+                solver: str | None = None, frd: bool = False) -> str:
     """Deck for one buckling analysis. ``kind`` is "lateral", "combined" or "gravity"."""
     s = _model_cards(m)
     # GRAV on the RIBS set only when ribs exist (an undefined set is a ccx error)
@@ -179,14 +169,24 @@ class BuckleResult:
 
 
 def run_buckle(m: Model, workdir: Path, name: str, kind: str, angle_deg: float = 0.0,
-               a_h: float = A_H, modes: int = 10, threads: int = 4) -> BuckleResult:
+               a_h: float = A_H, modes: int = 10, threads: int = 4, frd: bool = False,
+               retries: int = 1) -> BuckleResult:
     workdir.mkdir(parents=True, exist_ok=True)
-    (workdir / f"{name}.inp").write_text(buckle_deck(m, kind, angle_deg, a_h, modes))
+    (workdir / f"{name}.inp").write_text(buckle_deck(m, kind, angle_deg, a_h, modes, frd=frd))
     t0 = time.perf_counter()
     r = run_ccx(name, workdir, threads=threads)
+    for _ in range(retries):   # one retry for transient OS failures (out-of-memory status, file locks)
+        if r.returncode == 0:
+            break
+        time.sleep(5)
+        r = run_ccx(name, workdir, threads=threads)
     wall = time.perf_counter() - t0
     if r.returncode != 0:
         raise RuntimeError(f"ccx failed ({r.returncode}): {(r.stdout + r.stderr)[-600:]}")
     log = r.stdout + r.stderr
     solver = next((s for s in ("PARDISO", "PaStiX", "SPOOLES", "TAUCS") if s.lower() in log.lower()), "?")
-    return BuckleResult(read_factors(workdir / f"{name}.dat"), wall, solver, workdir)
+    res = BuckleResult(read_factors(workdir / f"{name}.dat"), wall, solver, workdir)
+    if not frd:   # keep the work folder small during long studies
+        for ext in (".inp", ".dat", ".sta", ".cvg", ".12d", ".frd"):
+            (workdir / f"{name}{ext}").unlink(missing_ok=True)
+    return res

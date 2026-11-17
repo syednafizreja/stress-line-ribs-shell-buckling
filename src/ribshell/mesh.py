@@ -40,6 +40,29 @@ class ShellMesh:
     def area(self) -> float:
         return float(sum(self.element_areas().values()))
 
+    def corner_quality(self) -> np.ndarray:
+        """Smallest sin(corner angle) of each element in plan (1 = rectangle, <= 0 = degenerate)."""
+        out = []
+        for c in self.quads.values():
+            p = np.array([self.nodes[n][:2] for n in c[:4]])
+            a, b = np.roll(p, -1, 0) - p, np.roll(p, 1, 0) - p
+            cr = a[:, 0] * b[:, 1] - a[:, 1] * b[:, 0]
+            out.append(float(np.min(cr / (np.linalg.norm(a, axis=1) * np.linalg.norm(b, axis=1)))))
+        return np.array(out)
+
+
+GMSH_OPTS: dict[str, float] = {
+    "Mesh.Algorithm": 8,               # frontal-Delaunay for quads
+    "Mesh.RecombineAll": 1,
+    "Mesh.RecombinationAlgorithm": 2,  # simple full-quad (blossom left 180-deg corners next to ribs)
+    "Mesh.Smoothing": 20,
+    "Mesh.SubdivisionAlgorithm": 1,    # all-quad: every element is split in four, so the edge is ~h/2
+}
+#: Quality gate: smallest sine of a corner angle in plan (scaled Jacobian at the corners).
+#: The blossom recombination gave corners up to 179.5 deg next to embedded rib curves, which
+#: CalculiX rejects (nonpositive Jacobian of the expanded C3D20R); 0.2 is a corner of 11.5-168.5 deg.
+MIN_QUALITY = 0.2
+
 
 def build_mesh(surface: Surface, h: float, ribs: list[np.ndarray] | None = None) -> ShellMesh:
     """Mesh the plan [0, L]^2 with target size ``h`` and lift it onto ``surface``.
@@ -71,10 +94,8 @@ def build_mesh(surface: Surface, h: float, ribs: list[np.ndarray] | None = None)
                 gmsh.model.addPhysicalGroup(1, [t for d, t in out_map[1 + i] if d == 1], tag=100 + i)
         gmsh.option.setNumber("Mesh.MeshSizeMax", h)
         gmsh.option.setNumber("Mesh.MeshSizeMin", 0.25 * h)
-        gmsh.option.setNumber("Mesh.Algorithm", 8)               # frontal-Delaunay for quads
-        gmsh.option.setNumber("Mesh.RecombineAll", 1)
-        gmsh.option.setNumber("Mesh.RecombinationAlgorithm", 1)  # blossom
-        gmsh.option.setNumber("Mesh.SubdivisionAlgorithm", 1)    # all-quad
+        for k, v in GMSH_OPTS.items():
+            gmsh.option.setNumber(k, v)
         gmsh.option.setNumber("Mesh.SecondOrderIncomplete", 1)   # 8-node quads
         gmsh.option.setNumber("Mesh.ElementOrder", 2)
         gmsh.model.mesh.generate(2)
@@ -113,4 +134,9 @@ def build_mesh(surface: Surface, h: float, ribs: list[np.ndarray] | None = None)
     nodes = {n: p for n, p in nodes.items() if n in used}
     tol = 1e-6 * L
     edge = {n for n, (x, y, _) in nodes.items() if min(x, y, L - x, L - y) < tol}
-    return ShellMesh(nodes, quads, rib_elems, edge)
+    mesh = ShellMesh(nodes, quads, rib_elems, edge)
+    q = mesh.corner_quality()
+    if q.min() < MIN_QUALITY:
+        raise RuntimeError(f"mesh quality gate: {int((q < MIN_QUALITY).sum())} elements with "
+                           f"sin(corner) < {MIN_QUALITY} (min {q.min():.3f}), h = {h}")
+    return mesh

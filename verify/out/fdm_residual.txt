@@ -1,0 +1,4 @@
+FDM network 60 x 60, q_x = 6503.02, q_y = 6503.02 N/m, rise = 2.400000 m
+max relative vertical residual = 5.583e-13  (limit 1e-6)
+max |spline - network z| = 1.776e-15 m
+PASS
