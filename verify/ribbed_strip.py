@@ -8,7 +8,7 @@ eccentric rib, so u_x, u_y are restrained at two points only.
 Reference: simply supported T-beam, flange b x t on the mid-surface, web w x d hanging below,
     w_mid = 5 q L^4 / (384 E I) + q L^2 / (8 kappa G A_web),   kappa = 5/6,
 with q the self-weight per strip. Plate action of the flange (1 - nu^2) and residual shear lag
-make the FE slightly stiffer or softer; pass band 5 % (brief section 7).
+make the FE slightly stiffer or softer; pass band 5 % (scope section 7).
 
 Usage: python verify/ribbed_strip.py   (writes verify/out/ribbed_strip.txt)
 """

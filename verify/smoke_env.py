@@ -1,7 +1,7 @@
 """Environment smoke test for P1 and P2: every import works, ccx runs, gmsh meshes,
 and ShellBench's force density form-finding gives the P2 geometry.
 
-This is a set-up check, not the brief's force density verification (that one also
+This is a set-up check, not the scope's force density verification (that one also
 checks the residual and m ~ 0 under gravity on the FE model).
 """
 import importlib

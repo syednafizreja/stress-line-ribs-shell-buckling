@@ -1,7 +1,7 @@
 """Stress-line ribs vs optimised thickness (Project 2).
 
 Modules:
-    constants  model data fixed by the brief
+    constants  model data fixed by the scope document
     form       form-found surface z(x, y)
     mesh       Gmsh plan mesh lifted onto the surface, with embedded rib curves
     fe         CalculiX decks (static G, perturbation *BUCKLE with a_h) and result readers

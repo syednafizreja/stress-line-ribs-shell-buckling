@@ -1,4 +1,4 @@
-"""Mesh convergence of the buckling factors (brief section 7: three meshes).
+"""Mesh convergence of the buckling factors (scope section 7: three meshes).
 
 Variants A (uniform 60 mm), C and D (ribbed, equal volume) and E (best zonal design, if present)
 at h = 0.6, 0.4, 0.3, 0.2 m: lambda_g and lambda_c at 0 and 45 deg. For the three finest meshes the

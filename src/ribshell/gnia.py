@@ -109,3 +109,18 @@ def gnia(m: Model, wd: Path, name: str, lam_max: float, angle_deg: float = 0.0, 
     if not hist:
         raise RuntimeError(f"GNIA {name}: no converged increment")
     return GNIAResult(hist[-1][0], hist[-1][0] >= lam_max * (1 - 1e-9), hist, mon)
+
+
+def limit_kind(hist: list[tuple[float, float]]) -> str:
+    """Classify the end of a load-control history [(lambda, u_peak)]: "limit point" when the secant
+    stiffness over the last 10 % of load is below 10 % of the initial stiffness, else "solver stop"."""
+    lam = np.array([p[0] for p in hist])
+    u = np.array([p[1] for p in hist])
+    if len(lam) < 4 or u[0] <= 0:
+        return "undetermined"
+    k0 = lam[0] / u[0]
+    sel = lam >= 0.9 * lam[-1]
+    i = int(np.argmax(sel))
+    i = min(i, len(lam) - 2)
+    k_end = (lam[-1] - lam[i]) / max(u[-1] - u[i], 1e-15)
+    return "limit point" if k_end < 0.1 * k0 else "solver stop"

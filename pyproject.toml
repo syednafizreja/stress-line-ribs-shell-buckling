@@ -9,6 +9,17 @@ description = "Stress-line ribs vs optimised thickness: lateral-load buckling of
 authors = [{ name = "Syed Nafiz Reja Hasib" }]
 requires-python = ">=3.12"
 license = { text = "MIT" }
+dependencies = [
+  "numpy>=2.0", "scipy>=1.13", "matplotlib>=3.9", "gmsh>=4.13", "cma>=4.0",
+  "shellbench @ git+https://github.com/syednafizreja/ShellBench@v1.0.0",
+]
+
+[project.optional-dependencies]
+outputs = ["pyvista>=0.44", "ifcopenshell>=0.8", "ezdxf>=1.3", "imageio>=2.34"]
+test = ["pytest>=8"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

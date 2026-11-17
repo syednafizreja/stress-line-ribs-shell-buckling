@@ -1,4 +1,4 @@
-"""Scordelis-Lo roof with S8R shells (brief section 6, first check).
+"""Scordelis-Lo roof with S8R shells (scope section 6, first check).
 
 The model is ShellBench's (imported, not copied or edited): whole roof, R = 25, L = 50, 40 deg,
 t = 0.25, E = 4.32e8, nu = 0, self-weight 90 per unit area, rigid diaphragms at the curved

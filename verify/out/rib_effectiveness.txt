@@ -1,0 +1,13 @@
+rib effectiveness, h = 0.6 m, G + 0.2 g at 0 deg, lowest positive factor
+
+A uniform 60 mm                          lambda_c0 =   341.41
+bare 50 mm shell carrying the V60 weight lambda_c0 =   221.23
+
+C: 8 ribs, 68.2 m, depth 158 mm
+   lambda_c0 =   249.75   (x 1.129 of the bare shell)
+   mode 1 on rib nodes: mean |u| / shell mean = 0.992, max |u| / shell peak = 0.370
+   ribs 3x deeper (473 mm, heavier): lambda_c0 =   227.56  (x 0.911)
+D: 12 ribs, 51.4 m, depth 209 mm
+   lambda_c0 =   237.68   (x 1.074 of the bare shell)
+   mode 1 on rib nodes: mean |u| / shell mean = 1.345, max |u| / shell peak = 0.409
+   ribs 3x deeper (626 mm, heavier): lambda_c0 =   179.92  (x 0.757)

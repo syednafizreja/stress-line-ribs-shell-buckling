@@ -136,5 +136,5 @@ def abs_tensor(T: np.ndarray) -> np.ndarray:
 
 
 def envelope(res: dict[str, Resultants], which: str = "m", keys=("+x", "-x", "+y", "-y")) -> np.ndarray:
-    """Envelope tensor: sum over the lateral cases of the absolute-principal tensor (brief 5.3)."""
+    """Envelope tensor: sum over the lateral cases of the absolute-principal tensor (scope 5.3)."""
     return sum(abs_tensor(getattr(res[k], which)) for k in keys)

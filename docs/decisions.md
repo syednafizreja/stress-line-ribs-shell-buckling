@@ -1,18 +1,20 @@
 # Methods log: decisions and additional checks
 
-This file lists two kinds of entries. Some are checks added beyond the project brief. Others are modelling choices the author still has to confirm. Each entry names where it lives in the code and what it showed. Entries marked *author to confirm* were set by the analyst, from primary sources where a source exists, and are waiting for the author's sign-off.
+This file lists two kinds of entries. Some are checks added beyond the scope document (docs/scope.md). Others are modelling choices the author still has to confirm. Each entry names where it lives in the code and what it showed. Entries marked *author to confirm* were set by the analyst, from primary sources where a source exists, and are waiting for the author's sign-off.
 
-## Checks added beyond the brief
+## Checks added beyond the scope document
 
 | Check | Where | Purpose | Result |
 | --- | --- | --- | --- |
 | Ribbed slab checked two ways | `verify/ribbed_strip.py` | Compares the study rib model (S8R + B32R with OFFSET2) with an independent model that uses thickened S8R strips. | Beam 0.976, strips 0.999 of the T-beam reference; beam/strip 0.977. To be re-run on the gated mesher. |
 | Layout robustness to the field mesh | `verify/layout_robustness.py` | Traces layouts C, D and Dx from fields computed at h = 0.6, 0.4, 0.3 and 0.2 m and measures the Hausdorff distance to the study layout. | C and Dx are stable. D changes topology at h = 0.3 (8 lines instead of 12). This is reported as found, and the 8-line diagonal layout is studied as its own variant, Dd. |
-| Mesh convergence with Richardson extrapolation | `verify/mesh_convergence.py` | Chooses the study mesh from the observed order of convergence rather than from a fixed rule. | Pending. |
+| Mesh convergence with Richardson extrapolation | `verify/mesh_convergence.py` | Chooses the study mesh from the observed convergence rather than from a fixed rule. | h = 0.6 to 0.2 m for A, C, D. From h = 0.4 to 0.2 the change is at most 0.18 % (D) and 0.02 % or less for A and C; D converges unevenly (observed order 0.3), so its Richardson estimate is not relied on. Study mesh h = 0.4. |
+| Rib effectiveness at equal volume | `verify/rib_effectiveness.py` | The ribbed variants buckle below the uniform shell, so this checks whether the ribs work at all. | The bare 50 mm shell carrying the V60 weight gives 221; C and D give 250 and 238, so the ribs add 7 to 13 %. Tripling the rib depth lowers lambda for D by the ratio of the added weight (0.757 against 0.75), and the mode-1 peak lies in the panels (peak on a rib node 0.37 to 0.41 of the shell peak). The governing mode is panel buckling between the ribs. |
+| Beam-shell coupling on the curved shell | `verify/rib_coupling_curved.py` | The flat-slab check cannot show an error in rib orientation or offset sign on a curved surface. | Point load on a rib of D: deflection 0.468, 0.258 and 0.168 mm for rib depths 1, 209 and 800 mm. The ribs are coupled. |
 | Mesh quality gate | `src/ribshell/mesh.py` | Rejects any mesh with min sin(corner angle) < 0.2. This keeps degenerate quads, which give a nonpositive Jacobian, out of the study. | Active for all runs. Earlier results are in `results/superseded/`. |
 | Limit-point versus solver-stop classification | `study/s04_gnia.py` | CalculiX has no arc-length method, so each GNIA stop is classified by its end secant stiffness. A solver stop is never reported as a buckling load. | Applied to every GNIA row. |
 | Both imperfection signs | `study/s04_gnia.py` | Runs the mode-1 imperfection in both signs. The weaker sign governs. | Applied to every GNIA row. |
-| Tool environment fix | `cecore/src/cecore/env.py`, `cecore/tests/test_env.py` | `setup_ccx` grew PATH on every call and crashed long runs (0xC0000017). It now adds only the missing entries, and a test checks this. | Fixed; the test passes. |
+| Tool environment fix | `src/cecore/env.py`, `tests/test_env.py` | `setup_ccx` grew PATH on every call and crashed long runs (0xC0000017). It now adds only the missing entries, and a test checks this. | Fixed; the test passes. |
 
 ## Choices to be confirmed by the author
 
@@ -22,5 +24,7 @@ This file lists two kinds of entries. Some are checks added beyond the project b
 | Edge clearance of ribs | `src/ribshell/layouts.py` | Lines whose median distance to the pinned boundary is below 0.5 m are dropped: the edge is already restrained, so such a rib only uses volume. *Author to confirm.* |
 | Reference imperfection amplitude | `study/s04_gnia.py` | L/500 (L = 12 m plan span) as the reference, with L/300 and L/1000 as the bounds. To be checked against the code basis adopted for the report. *Author to confirm.* |
 | Two-stage optimisation of variant E | `study/s03_optimise_E.py` | Stage 1: D4-symmetric, 6 variables, load directions 0° and 45°. Stage 2: free, 25 variables, 8 load directions, started from the stage-1 optimum. *Author to confirm.* |
-| Study mesh size | `verify/mesh_convergence.py` | Set from the convergence study. The actual element edge is about h/2 because of quad subdivision, and it is reported that way. *Author to confirm.* |
-| Vendoring `cecore` | `STATUS.md` | Before either repository goes public, vendor `cecore` into it or publish it as a package, so that a fresh clone installs. *Author to confirm.* |
+| Study mesh size | `verify/mesh_convergence.py` | h = 0.4 m (element edge about 0.2 m after quad subdivision). h = 0.6 meets the scope's 2 % rule too, but D is 1.3 % stiff there against 0.2 % or less for A, which would favour the ribbed variants. *Author to confirm.* |
+| Carbon factor | `study/s05_volume_sweep.py` | 0.120 kgCO2e/kg A1-A3 (band 0.063 to 0.149): IStructE (2022), *How to calculate embodied carbon*, 2nd ed., Table 2.3, UK in-situ C32/40 with 25 % GGBS, from the ICE database (2020). The table has no C30/37 row, so the next class up is used, which is on the high side. Reinforcement is excluded. *Author to confirm.* |
+| Imperfect-model rib orientation | `src/ribshell/gnia.py`, `src/ribshell/fe.py` | The rib normals of the imperfect model come from the perfect surface. n1 is formed from the displaced tangent, so the section stays perpendicular to the rib; the tilt of n2 is about w0 / (half-wave) < 0.03 rad and is neglected. Stated as a limitation. |
+| Vendoring `cecore` | `src/cecore/` | `cecore` (commit 8202eb8) is copied into this repository so that a fresh clone installs with `pip install -e .`; ShellBench is installed from its v1.0.0 DOI release. *Author to confirm.* |

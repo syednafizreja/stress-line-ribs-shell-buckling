@@ -1,4 +1,4 @@
-"""Variants A-D (and Dx) at equal volume V60: buckling factors and fabrication metrics.
+"""Variants A-D (and Dd, Dx) at equal volume V = r x V60: buckling factors and fabrication metrics.
 
 For every variant:
   lambda_g        gravity alone (lowest positive buckling factor of 10 modes)
@@ -7,8 +7,8 @@ All eight directions are run for every variant, even where the layout is D4-symm
 do; the spread across symmetric directions is reported as a check of the mesh and solver symmetry.
 
 Inputs : results/layouts.json (from s01)
-Outputs: results/variants_V60.json, results/variants_V60.txt
-Usage  : python study/s02_variants.py [--h 0.4]
+Outputs: results/variants_h<h>_r<r>.json and .txt
+Usage  : python study/s02_variants.py [--h 0.6] [--vratio 1.0]
 """
 from __future__ import annotations
 
@@ -48,29 +48,36 @@ def evaluate(m: Model, tag: str, wd: Path) -> dict:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--h", type=float, default=0.4)
-    h = ap.parse_args().h
+    ap.add_argument("--h", type=float, default=0.6)
+    ap.add_argument("--vratio", type=float, default=1.0)
+    a = ap.parse_args()
+    run(a.h, a.vratio)
+
+
+def run(h: float, vr: float) -> dict:
     s = shell_surface()
     lay = json.load(open(RES / "layouts.json"))
     a_mesh = build_mesh(s, h)
     v60 = a_mesh.area() * T_REF
-    out: dict[str, dict] = {"h": h, "V60_m3": v60, "variants": {}}
+    vol = vr * v60
+    out: dict[str, dict] = {"h": h, "vratio": vr, "V60_m3": v60, "V_m3": vol, "variants": {}}
     with tempfile.TemporaryDirectory() as td:
         wd = Path(td)
         t0 = time.perf_counter()
-        mA = Model(a_mesh, T_REF, surface=s)
+        mA = Model(a_mesh, T_REF * vr, surface=s)
         out["variants"]["A"] = {**evaluate(mA, "A", wd), "volume_m3": mA.volume(), "rib_length_m": 0.0,
                                 "n_ribs": 0, "crossings": 0}
         print("A", round(out["variants"]["A"]["lambda_c"], 2), flush=True)
-        for name in ("B", "C", "D", "Dx"):
+        for name in [n for n in ("B", "C", "D", "Dd", "Dx") if n in lay]:
             L = Layout(name, [np.array(ln) for ln in lay[name]])
-            m, met = ribbed_model(L, s, v60, h=h)
+            m, met = ribbed_model(L, s, vol, h=h)
             met["volume_check_m3"] = m.volume()
             out["variants"][name] = {**evaluate(m, name, wd), **met}
             print(name, round(out["variants"][name]["lambda_c"], 2), flush=True)
         out["wall_s"] = time.perf_counter() - t0
-    json.dump(out, open(RES / "variants_V60.json", "w"), indent=1)
-    rows = [f"Variants at V60 = {v60:.3f} m3, h = {h} m, a_h = 0.2 g (lambda: lowest positive of 10 modes)",
+    tag = f"h{h:g}_r{vr:g}"
+    json.dump(out, open(RES / f"variants_{tag}.json", "w"), indent=1)
+    rows = [f"Variants at V = {vr:g} x V60 = {vol:.3f} m3, h = {h} m, a_h = 0.2 g (lambda: lowest positive of 10 modes)",
             "var  lam_g    lam_c   worst  lam_c/lam_g  rib_L[m]  depth[mm]  cross  V_model[m3]  sym.spread"]
     for k, r in out["variants"].items():
         lc = r["lambda_c_by_angle"]
@@ -80,8 +87,9 @@ def main() -> None:
                     f"    {r.get('rib_length_m', 0):7.1f}  {r.get('rib_depth_mm', 0):8.0f}  {r['crossings']:5d}"
                     f"   {r.get('volume_check_m3', r['volume_m3']):8.3f}   {spread / r['lambda_c'] * 100:6.2f}%")
     rows.append(f"wall {out['wall_s']:.0f} s")
-    (RES / "variants_V60.txt").write_text("\n".join(rows) + "\n")
+    (RES / f"variants_{tag}.txt").write_text("\n".join(rows) + "\n")
     print("\n".join(rows))
+    return out
 
 
 if __name__ == "__main__":

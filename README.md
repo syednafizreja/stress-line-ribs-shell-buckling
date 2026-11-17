@@ -1,6 +1,6 @@
 # Project 2: stress-line ribs vs optimised thickness
 
-Brief: `brief.md`. Status: `../STATUS.md`. Local only: no GitHub remote until the author decides to release.
+Scope: `docs/scope.md`. Decisions and checks: `docs/decisions.md`.
 
 | Folder | Holds |
 |---|---|

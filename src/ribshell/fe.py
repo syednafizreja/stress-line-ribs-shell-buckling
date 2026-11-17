@@ -10,7 +10,7 @@ Conventions, checked on ccx 2.23 (``verify/ccx_capabilities.py``, manual section
 
   - ``"lateral"``: gravity G is a *STATIC preload and the buckle step is PERTURBATION with a_h.
     lambda_h scales a_h only, so the critical lateral acceleration is a_cr = lambda_h * a_h.
-  - ``"combined"``: no preload; lambda_c scales G + a_h together (the brief's literal wording).
+  - ``"combined"``: no preload; lambda_c scales G + a_h together (the scope's literal wording).
   - ``"gravity"``: no preload; lambda_g scales G alone.
 """
 from __future__ import annotations

@@ -14,7 +14,9 @@ Two stages (see docs/decisions.md; author to confirm):
 Every evaluation is appended to results/E_<stage>_h<h>.jsonl (the run can be resumed: logged
 designs are not recomputed). Best design -> results/E_best_<stage>_h<h>.json.
 
-Usage: python study/s03_optimise_E.py --stage d4 --h 0.6
+The volume is V = r x V60 (--vratio r, default 1); r != 1 adds _r<r> to the file names.
+
+Usage: python study/s03_optimise_E.py --stage d4 --h 0.6 [--vratio 1.2]
        python study/s03_optimise_E.py --stage free --h 0.6
 """
 from __future__ import annotations
@@ -51,13 +53,15 @@ def main() -> None:
     ap.add_argument("--stage", choices=("d4", "free"), required=True)
     ap.add_argument("--h", type=float, default=0.6)
     ap.add_argument("--maxfevals", type=int, default=None)
+    ap.add_argument("--vratio", type=float, default=1.0)
     a = ap.parse_args()
     s = shell_surface()
     mesh = build_mesh(s, a.h)
-    v60 = mesh.area() * T_REF
+    v60 = mesh.area() * T_REF * a.vratio
     des = ZonalDesign(mesh, NZ, v60, symmetry="d4" if a.stage == "d4" else None)
     angles = (0, 45) if a.stage == "d4" else tuple(range(0, 360, 45))
-    tag = f"{a.stage}_h{a.h:g}"
+    rtag = "" if a.vratio == 1 else f"_r{a.vratio:g}"
+    tag = f"{a.stage}_h{a.h:g}{rtag}"
     log_path = RES / f"E_{tag}.jsonl"
     cache = {}
     if log_path.exists():
@@ -68,7 +72,7 @@ def main() -> None:
     if a.stage == "d4":
         x0, sigma0, popsize, maxfe = np.zeros(des.n_vars), 0.3, 10, a.maxfevals or 300
     else:
-        d4 = json.load(open(RES / f"E_best_d4_h{a.h:g}.json"))
+        d4 = json.load(open(RES / f"E_best_d4_h{a.h:g}{rtag}.json"))
         x0 = np.log(np.asarray(d4["zone_thickness_m"]))   # a valid u (the projection is scale-free)
         sigma0, popsize, maxfe = 0.15, 14, a.maxfevals or 560
 
@@ -121,7 +125,7 @@ def main() -> None:
             best = gen_best
         print(f"gen {es.countiter:3d}  fevals {es.countevals:4d}  gen-best {gen_best['objective']:.3f}"
               f"  best {best['objective']:.3f}  sigma {es.sigma:.3f}", flush=True)
-    best = {**best, "stage": a.stage, "h": a.h, "nz": NZ, "V_m3": v60,
+    best = {**best, "stage": a.stage, "h": a.h, "nz": NZ, "V_m3": v60, "vratio": a.vratio,
             "volume_check_m3": float(des.zone_area @ np.asarray(best["zone_thickness_m"])),
             "uniform_or_start_objective": ref["objective"], "stop": {k: str(v) for k, v in es.stop().items()},
             "fevals": es.countevals}

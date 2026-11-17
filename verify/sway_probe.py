@@ -4,7 +4,7 @@ For each support case and each a_h (0.15, 0.2, 0.3, 0.4 g) the script reports la
 alone), lambda_c (G + a_h together, worst of 0 and 45 degrees: the uniform square is D4-symmetric,
 so these two directions cover the envelope) and the sway ratio lambda_c / lambda_g.
 
-Corner-supported case (brief section 10): fixed-plan funicular form with edge arches rising 0.5 x
+Corner-supported case (scope section 10): fixed-plan funicular form with edge arches rising 0.5 x
 the crown, a 250 x 400 mm edge beam hanging below the free edges (it carries the edge thrust that a
 fixed-plan form cannot balance in plan), and pinned 0.30 m x 0.30 m column pads at the corners.
 

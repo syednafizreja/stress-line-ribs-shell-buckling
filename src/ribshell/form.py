@@ -88,7 +88,7 @@ def _corner_fdm(span: float, n: int, edge_ratio: float) -> tuple[np.ndarray, np.
 
 
 def corner_surface(span: float = SPAN, rise: float = RISE, n: int = 60, edge_rise_frac: float = 0.5) -> Surface:
-    """Corner-supported funicular shell (brief section 10).
+    """Corner-supported funicular shell (scope section 10).
 
     Fixed-plan force density with only the corners fixed. The boundary force density is chosen so
     the edge-arch rise is ``edge_rise_frac`` x the crown rise; the free edges then need an edge member

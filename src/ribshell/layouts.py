@@ -3,8 +3,8 @@
 * B: orthogonal grid at about 1.5 m spacing (no mechanics).
 * C: both families of the gravity membrane-force lines (principal directions of n under G).
 * D: both families of the principal-moment lines of the seismic envelope tensor
-  M_env = sum over (+x, -x, +y, -y) of sum_i |m_i| v_i v_i^T  (brief 5.3).
-  D_x (tracing from the +x case only) is kept for the comparison the brief asks for.
+  M_env = sum over (+x, -x, +y, -y) of sum_i |m_i| v_i v_i^T  (scope 5.3).
+  D_x (tracing from the +x case only) is kept for the comparison the scope asks for.
 
 Rib depth: the base shell is 50 mm and ribs are 150 mm wide. With A_s the shell area, L the rib
 length on the surface and k the number of rib crossings (where two ribs share a 150 x 150 mm

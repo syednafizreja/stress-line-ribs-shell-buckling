@@ -1,4 +1,4 @@
-"""Model data fixed by the brief (section 3), in one place so every script uses the same values."""
+"""Model data fixed by the scope document (section 3), in one place so every script uses the same values."""
 
 SPAN: float = 12.0            # plan side [m]
 RISE: float = 2.4             # span / 5 [m]

@@ -28,7 +28,7 @@ import numpy as np
 from ribshell.constants import SPAN, T_REF
 from ribshell.fe import Model
 from ribshell.form import shell_surface
-from ribshell.gnia import gnia, imperfect, lba_mode
+from ribshell.gnia import gnia, imperfect, lba_mode, limit_kind
 from ribshell.layouts import Layout, ribbed_model
 from ribshell.mesh import build_mesh
 from ribshell.zonal import ZonalDesign
@@ -47,26 +47,13 @@ def models(h: float) -> dict[str, Model]:
     lay = json.load(open(RES / "layouts.json"))
     for n in ("C", "D"):
         out[n], _ = ribbed_model(Layout(n, [np.array(x) for x in lay[n]]), s, v60, h=h)
-    eb = RES / "E_best_d4_h0.6.json"
+    eb = RES / f"E_best_d4_h{h:g}.json"
     if eb.exists():
         e = json.load(open(eb))
         des = ZonalDesign(mesh, e["nz"], v60)
         tz = des.zone_thickness(np.asarray(e["zone_thickness_m"]))   # re-projected on this mesh
         out["E"] = Model(mesh, des.element_thickness(tz), surface=s)
     return out
-
-
-def limit_kind(hist: list[tuple[float, float]]) -> str:
-    lam = np.array([p[0] for p in hist])
-    u = np.array([p[1] for p in hist])
-    if len(lam) < 4 or u[0] <= 0:
-        return "undetermined"
-    k0 = lam[0] / u[0]
-    sel = lam >= 0.9 * lam[-1]
-    i = int(np.argmax(sel))
-    i = min(i, len(lam) - 2)
-    k_end = (lam[-1] - lam[i]) / max(u[-1] - u[i], 1e-15)
-    return "limit point" if k_end < 0.1 * k0 else "solver stop"
 
 
 def main() -> None:
