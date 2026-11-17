@@ -1,0 +1,6 @@
+Zoelly cap verification (R=5.0 m, t=50 mm, E=33 GPa, nu=0.2)
+Mesh: 27972 S8R elements, 83918 nodes, h=0.2 m
+Zoelly p_cr = 3.8891 MPa
+FE lambda_1 = 3.9224  =>  p_cr = 3.9224 MPa
+Error = +0.86 %
+PASS
