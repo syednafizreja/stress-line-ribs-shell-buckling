@@ -1,0 +1,40 @@
+GNIA, h = 0.4 m, load control to 1.2 lambda_LBA, linear elastic C30/37
+var  w0      sign       ang  lam_LBA  lam_GNIA  alpha   kind
+A    L/300   peak-down    0   341.21    121.77  0.357  limit point
+A    L/300   flipped      0   341.21    223.72  0.656  solver stop
+A    L/500   peak-down    0   341.21    118.20  0.346  limit point
+A    L/500   flipped      0   341.21    265.68  0.779  solver stop
+A    L/1000  peak-down    0   341.21    148.14  0.434  limit point
+A    L/1000  flipped      0   341.21    298.15  0.874  limit point
+C    L/300   peak-down    0   249.13    105.57  0.424  limit point
+C    L/300   flipped      0   249.13    192.03  0.771  solver stop
+C    L/500   peak-down    0   249.13     91.30  0.366  limit point
+C    L/500   flipped      0   249.13    208.95  0.839  solver stop
+C    L/1000  peak-down    0   249.13    125.09  0.502  limit point
+C    L/1000  flipped      0   249.13    228.12  0.916  limit point
+D    L/300   peak-down    0   235.11     89.77  0.382  limit point
+D    L/300   flipped      0   235.11    119.71  0.509  limit point
+D    L/500   peak-down    0   235.11     98.29  0.418  limit point
+D    L/500   flipped      0   235.11    135.94  0.578  solver stop
+D    L/1000  peak-down    0   235.11    118.37  0.503  limit point
+D    L/1000  flipped      0   235.11    151.41  0.644  solver stop
+E    L/300   peak-down    0   429.02    140.41  0.327  limit point
+E    L/300   flipped      0   429.02    167.17  0.390  limit point
+E    L/500   peak-down    0   429.02    135.96  0.317  limit point
+E    L/500   flipped      0   429.02    196.93  0.459  solver stop
+E    L/1000  peak-down    0   429.02    165.94  0.387  limit point
+E    L/1000  flipped      0   429.02    247.03  0.576  solver stop
+
+governing (min over sign):  var  w0  lam_GNIA  alpha
+  A   L/300    121.77  0.357
+  A   L/500    118.20  0.346
+  A   L/1000   148.14  0.434
+  C   L/300    105.57  0.424
+  C   L/500     91.30  0.366
+  C   L/1000   125.09  0.502
+  D   L/300     89.77  0.382
+  D   L/500     98.29  0.418
+  D   L/1000   118.37  0.503
+  E   L/300    140.41  0.327
+  E   L/500    135.96  0.317
+  E   L/1000   165.94  0.387
