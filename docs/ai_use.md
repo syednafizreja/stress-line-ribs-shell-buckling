@@ -8,7 +8,9 @@ This statement is for editors, reviewers and readers of this repository.
 
 **What it did.**
 - Drafted and tested the code in `src/`, `study/`, `verify/` and `tests/` to the author's specification in `docs/scope.md`.
-- Ran the analyses, made the figures and exports, and drafted the README, the methods log (`docs/decisions.md`) and the report.
+- Ran the analyses, made the figures and exports, and drafted the README and the methods log (`docs/decisions.md`).
+
+On 20 November 2026 the volume figures, the lateral-acceleration sensitivity and `report/report.md` were added from the result files. The tool for that pass was Grok, through Grok Build. It is not an author. The same rules apply: the question and the hypothesis stay the author's, and every number in the report is taken from a file written by a script in this repository.
 - Looked up the open sources listed in `references.md` and checked the values taken from them.
 
 **What it did not do.**

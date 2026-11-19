@@ -13,5 +13,6 @@ step() { local name=$1; shift; log "start $name"; "$PY" "$@" > "results/logs/$na
 [ -f "results/E_best_free_h${H}.json" ] || step s03_free study/s03_optimise_E.py --stage free --h "$H"
 [ -f "results/gnia_h${H}.json" ]        || step s04 study/s04_gnia.py --h "$H"
 step s05 study/s05_volume_sweep.py --h "$H"
+[ -f "results/ah_h${H}.json" ] || step s08 study/s08_ah_sensitivity.py --h "$H"
 for v in ribbed_strip check_fields sway_probe time_buckle; do step "verify_$v" "verify/$v.py"; done
 log "all done"

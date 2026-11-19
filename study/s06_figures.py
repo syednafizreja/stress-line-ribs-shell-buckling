@@ -68,6 +68,7 @@ def fig_sweep(sw: dict) -> None:
     names = [k for k in COL if k in rows[0]["lambda_c"]]
     V = np.array([r["V_m3"] for r in rows])
     fig, ax = plt.subplots(figsize=(7.2, 4.6))
+    ends: list[tuple[float, str]] = []
     for k in names:
         lam = np.array([r["lambda_c"][k] for r in rows])
         ax.plot(V, lam, color=COL[k], zorder=2)
@@ -78,8 +79,20 @@ def fig_sweep(sw: dict) -> None:
         else:
             ax.scatter(V, lam, s=40 if k != "E" else 90, marker=MRK[k], color=COL[k],
                        edgecolor="#fcfcfb", linewidth=1.2, zorder=3)
-        ax.annotate(k, (V[-1], lam[-1]), xytext=(6, 0), textcoords="offset points", va="center",
-                    color=INK, fontsize=9, fontweight="bold")
+        ends.append((float(lam[-1]), k))
+    # Keep the end labels off each other. D and Dd finish within one line height.
+    ends.sort()
+    gap, shown = 22.0, []
+    for y, k in ends:
+        yy = y if not shown or y >= shown[-1] + gap else shown[-1] + gap
+        shown.append(yy)
+        if yy == y:
+            ax.annotate(k, (V[-1], y), xytext=(8, 0), textcoords="offset points",
+                        va="center", color=INK, fontsize=9, fontweight="bold")
+        else:
+            ax.annotate(k, (V[-1], y), xytext=(V[-1] + 0.35, yy), textcoords="data",
+                        va="center", color=INK, fontsize=9, fontweight="bold",
+                        arrowprops={"arrowstyle": "-", "color": INK2, "lw": 0.6})
     if "E_free" in rows[0]:
         ax.scatter([V[0]], [rows[0]["E_free"]], marker="*", s=90, facecolor="none", edgecolor=COL["E"],
                    linewidth=1.4, zorder=4, label="E, free 25-zone optimum (V60 only)")
@@ -107,14 +120,14 @@ def fig_sweep(sw: dict) -> None:
         R = np.array([r["recovery"][k] for r in rows]) * 100
         ax.bar(x + (i - (len(rib) - 1) / 2) * w, R, width=w * 0.9, color=COL[k], label=NAME[k], zorder=2)
     ax.axhline(70, color=INK, lw=1, ls="--")
-    ax.text(x[0] - 0.05, 72, "hypothesis: D ≥ 70 %", fontsize=8, color=INK)
+    ax.text(x[-1], 90, "hypothesis: D ≥ 70 %", fontsize=8, color=INK, ha="right")
     ax.axhline(0, color=INK2, lw=0.8)
     ax.set_xticks(x, [f"{v:.1f}" for v in x])
     ax.set_xlabel("V / V60")
     ax.set_ylabel("Recovery of the E gain over A [%]")
-    ax.legend(ncol=3, fontsize=8, loc="lower left")
+    ax.legend(ncol=5, fontsize=8, loc="upper center", bbox_to_anchor=(0.5, -0.22))
     fig.tight_layout()
-    fig.savefig(FIG / "fig2_recovery.png")
+    fig.savefig(FIG / "fig2_recovery.png", bbox_inches="tight")
     plt.close(fig)
     table("table_recovery.csv", ["V_over_V60", *[f"R_{k}" for k in rib]],
           [[r["vratio"], *[round(r["recovery"][k], 4) for k in rib]] for r in rows])

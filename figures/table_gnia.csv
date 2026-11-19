@@ -1,0 +1,25 @@
+variant,w0,sign,angle_deg,lambda_LBA,lambda_GNIA,alpha,kind
+A,L/300,peak-down,0,341.21,121.77,0.3569,limit point
+A,L/300,flipped,0,341.21,223.72,0.6557,solver stop
+A,L/500,peak-down,0,341.21,118.2,0.3464,limit point
+A,L/500,flipped,0,341.21,265.68,0.7786,solver stop
+A,L/1000,peak-down,0,341.21,148.14,0.4342,limit point
+A,L/1000,flipped,0,341.21,298.15,0.8738,limit point
+C,L/300,peak-down,0,249.13,105.57,0.4237,limit point
+C,L/300,flipped,0,249.13,192.03,0.7708,solver stop
+C,L/500,peak-down,0,249.13,91.3,0.3665,limit point
+C,L/500,flipped,0,249.13,208.95,0.8387,solver stop
+C,L/1000,peak-down,0,249.13,125.09,0.5021,limit point
+C,L/1000,flipped,0,249.13,228.12,0.9157,limit point
+D,L/300,peak-down,0,235.11,89.77,0.3818,limit point
+D,L/300,flipped,0,235.11,119.71,0.5092,limit point
+D,L/500,peak-down,0,235.11,98.29,0.4181,limit point
+D,L/500,flipped,0,235.11,135.94,0.5782,solver stop
+D,L/1000,peak-down,0,235.11,118.37,0.5035,limit point
+D,L/1000,flipped,0,235.11,151.41,0.644,solver stop
+E,L/300,peak-down,0,429.02,140.41,0.3273,limit point
+E,L/300,flipped,0,429.02,167.17,0.3897,limit point
+E,L/500,peak-down,0,429.02,135.96,0.3169,limit point
+E,L/500,flipped,0,429.02,196.93,0.459,solver stop
+E,L/1000,peak-down,0,429.02,165.94,0.3868,limit point
+E,L/1000,flipped,0,429.02,247.03,0.5758,solver stop

@@ -5,8 +5,8 @@
     python reproduce.py --quick    # figures and exports only, from the result files in results/
 
 Order: verification checks (verify/), layouts (s01, s01b), variants at V60 (s02), optimised
-thickness E (s03, D4 then free stage), nonlinear check (s04), volume sweep (s05), exports and
-mode shapes (s07), figures (s06). For a resumable run of the study steps use study/run_all.sh.
+thickness E (s03, D4 then free stage), nonlinear check (s04), volume sweep (s05), lateral-acceleration sensitivity (s08),
+exports and mode shapes (s07), figures (s06). For a resumable run of the study steps use study/run_all.sh.
 """
 from __future__ import annotations
 
@@ -22,7 +22,8 @@ VERIFY = ["smoke_env", "ccx_capabilities", "scordelis_lo", "zoelly_cap", "ribbed
           "check_fields", "layout_robustness", "mesh_convergence", "rib_effectiveness", "rib_coupling_curved", "sway_probe", "time_buckle"]
 STUDY = [["s01_fields_layouts.py"], ["s01b_layout_Dd.py"], ["s02_variants.py", "--h", H, "--vratio", "1.0"],
          ["s03_optimise_E.py", "--stage", "d4", "--h", H], ["s03_optimise_E.py", "--stage", "free", "--h", H],
-         ["s04_gnia.py", "--h", H], ["s05_volume_sweep.py", "--h", H]]
+         ["s04_gnia.py", "--h", H], ["s05_volume_sweep.py", "--h", H],
+         ["s08_ah_sensitivity.py", "--h", H]]
 
 
 def run(args: list[str]) -> None:

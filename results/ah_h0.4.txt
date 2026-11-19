@@ -1,0 +1,13 @@
+Lateral acceleration sensitivity, h = 0.4 m, V = V60, lambda_c = min over 8 directions
+E is the D4 optimum recorded at 0.20 g. It is reanalysed at the other accelerations, not re-optimised.
+a_h            A        B        C        D       Dd       Dx        E
+0.20    341.21   395.97   249.13   235.09   268.96   193.10   429.02   recorded
+0.15    348.65   404.37   254.48   240.92   275.15   197.48   439.43
+0.30    327.04   379.94   238.85   224.20   257.02   184.85   408.83
+
+Check of A at 0 and 45 deg against verify/out/sway_probe.txt (limit 0.05):
+  a_h 0.15    0  probe 348.65  s08 348.65  |d| 0.0027
+  a_h 0.15   45  probe 353.75  s08 353.75  |d| 0.0025
+  a_h 0.30    0  probe 327.04  s08 327.04  |d| 0.0043
+  a_h 0.30   45  probe 336.97  s08 336.97  |d| 0.0020
+probe check passed
