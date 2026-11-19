@@ -9,6 +9,7 @@ dependencies:
   - calculix=2.23      # ccx; needs Library/mingw-w64/bin on PATH -> cecore.env.setup_ccx() does this
   - pip:
       - gmsh==4.15.2
+      - shapely==2.2.0
       - meshio
       - cma==4.6.0
       - pyvista==0.49.2
