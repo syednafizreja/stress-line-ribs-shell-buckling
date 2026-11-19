@@ -1,0 +1,72 @@
+{
+ "sources": [
+  "figures/table_variants_V60.csv",
+  "results/E_best_d4_h0.4.json",
+  "results/gnia_h0.4.txt"
+ ],
+ "rule_linear": "lambda_c from the V60 table; E is the objective in E_best_d4_h0.4.json",
+ "rule_nonlinear": "minimum over imperfection amplitude of the weaker-sign row",
+ "order_linear": [
+  "A",
+  "B",
+  "C",
+  "D",
+  "Dd",
+  "Dx",
+  "E"
+ ],
+ "order_nonlinear": [
+  "A",
+  "C",
+  "D",
+  "E"
+ ],
+ "lambda_c": {
+  "A": 341.21,
+  "B": 395.97,
+  "C": 249.13,
+  "D": 235.09,
+  "Dd": 268.96,
+  "Dx": 193.1,
+  "E": 429.0206
+ },
+ "gain_E_minus_A": 87.81060000000002,
+ "percent_vs_A": {
+  "B": 16.04876762111311,
+  "C": -26.986313414026547,
+  "D": -31.10108144544415,
+  "Dd": -21.17464318161836,
+  "Dx": -43.40728583570235,
+  "E": 25.735060519914427
+ },
+ "percent_of_E_gain": {
+  "B": 62.36149166501542,
+  "C": -104.86205537828002,
+  "D": -120.85101343118023,
+  "Dd": -82.27936035057269,
+  "Dx": -168.66984168198366
+ },
+ "gnia": {
+  "A": {
+   "w0": "L/500",
+   "lambda": 118.2,
+   "alpha": "0.346"
+  },
+  "C": {
+   "w0": "L/500",
+   "lambda": 91.3,
+   "alpha": "0.366"
+  },
+  "D": {
+   "w0": "L/300",
+   "lambda": 89.77,
+   "alpha": "0.382"
+  },
+  "E": {
+   "w0": "L/500",
+   "lambda": 135.96,
+   "alpha": "0.317"
+  }
+ },
+ "gnia_E_vs_A_percent": 15.025380710659903
+}
