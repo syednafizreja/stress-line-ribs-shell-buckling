@@ -15,21 +15,11 @@ How much buckling capacity does a buildable rib layout give up? At one concrete 
 
 *Question:* at equal concrete volume, how much of the lateral-load buckling capacity of an optimised variable-thickness shell does a rib layout traced from principal-moment lines recover, and does tracing from the seismic case instead of the gravity case change the answer? Scope, fixed 10 Nov 2026: [docs/scope.md](docs/scope.md).
 
-> Design **D** (λ 235.09) recovers none of **E**'s gain over **A**. That gain is **87.8106**, from 341.21 to 429.0206. **B** recovers **62.36 %** of it.
-
-The hypothesis asked D to recover at least 70 % of E's gain over A, and asked B and C to recover clearly less. C is below A. B is above A and well above D, so the rib layout does matter, and the seismic-envelope tracing is not the layout that recovers the capacity. The hypothesis is not supported. A free search with 25 zones reached 428.8755 and did not beat the symmetric optimum ([results/E_best_free_h0.4.json](results/E_best_free_h0.4.json)).
-
-The same comparison was repeated at 1.1 to 1.5 times this volume ([results/sweep_h0.4.txt](results/sweep_h0.4.txt)). E was optimised again at each volume with the six-variable D4 search. The 25-zone search was not repeated.
-
-C, D, Dd and Dx stay below A at every volume. D falls from 235.1 to 159.8. A rises from 341.2 to 597.9. B stays above A. B's recovery of E's gain is 0.624 at the registered volume, 2.277 at 1.2 times that volume (B 684.7, E 546.9), and 0.377 at 1.5 times (B 649.0, E 733.4). From 1.1 to 1.3 times the volume, B is above the recorded D4 optimum.
-
-At 0.15 g and at 0.30 g the order of the seven designs is the same as at 0.20 g: E, B, A, Dd, C, D, Dx. E was not optimised again ([results/ah_h0.4.txt](results/ah_h0.4.txt)).
+> Design D (λ 235.09) recovers none of E's gain over A. That gain is 87.8106, from 341.21 to 429.0206. B recovers 62.36 % of it.
 
 | Hypothesis | Verdict | Key numbers |
 |---|---|---|
-| D recovers at least 70 % of E's gain over A; B and C recover clearly less | Not supported | E − A = 87.8106. D is below A (235.09). B recovers 62.36 % of the gain, more than D, not less. C is below A (249.13). |
-
-λ_c is the linear buckling factor on self-weight and 0.2 g together, in the worst of eight directions. Percentages against A are rounded to two decimal places from the file values. Rib depth is what the shared volume requires on a 50 mm shell.
+| D recovers at least 70 % of E's gain over A; B and C recover clearly less | Not supported | E − A = 87.8106. D is below A (235.09). B recovers 62.36 % of the gain, more than D, not less. C is below A (249.13). A 25-zone search reached 428.8755 and did not beat D4. |
 
 | Design | Layout | λ_c | Against A |
 |---|---|---:|---:|
@@ -41,11 +31,48 @@ At 0.15 g and at 0.30 g the order of the seven designs is the same as at 0.20 g:
 | Dx | Moment lines of the +x case only, 505.1 mm | 193.10 | −43.41 % |
 | E | Optimised thickness, D4 symmetry, six variables | 429.0206 | +25.74 % |
 
-A to Dx: [figures/table_variants_V60.csv](figures/table_variants_V60.csv). E: the `objective` in [results/E_best_d4_h0.4.json](results/E_best_d4_h0.4.json). The same values are plotted above and written to [docs/img/hero.json](docs/img/hero.json).
+A to Dx: [figures/table_variants_V60.csv](figures/table_variants_V60.csv). E: the `objective` in [results/E_best_d4_h0.4.json](results/E_best_d4_h0.4.json). Free search: [results/E_best_free_h0.4.json](results/E_best_free_h0.4.json). The figure above: [docs/img/hero.json](docs/img/hero.json).
 
-**Scope and limits.** Linear elastic, uncracked C30/37. The lateral load is an equivalent static acceleration of 0.2 g, not a ground-motion history. Within one sweep row the concrete volume is the same for every design, so A1–A3 concrete carbon is the same in that row. Reinforcement is not counted. The registered comparison is the volume of a uniform 60 mm shell. The sweep is the paragraph before the hypothesis table.
+| Limit | Record |
+|---|---|
+| λ_c | Self-weight and 0.2 g together, worst of eight directions. Percentages against A are rounded from the file values |
+| Material | Linear elastic, uncracked C30/37 |
+| Lateral load | Equivalent static 0.2 g, not a ground-motion history |
+| Carbon in one row | Same concrete volume, so the same A1–A3 concrete. Reinforcement is not counted |
+| Registered volume | A uniform 60 mm shell. Rib depth is what that volume requires on a 50 mm shell |
 
-With a geometric imperfection the governing value is the minimum over amplitude of the weaker sign, and for these four designs that value is a limit point ([results/gnia_h0.4.txt](results/gnia_h0.4.txt)).
+### Volume sweep
+
+Printed rows of [results/sweep_h0.4.txt](results/sweep_h0.4.txt). E was optimised again at each volume with the six-variable D4 search. The 25-zone search was not repeated. C, D, Dd and Dx stay below A in every row. B stays above A. From 1.1 to 1.3 times the volume, B is above the recorded D4 optimum.
+
+| V/V60 | V m³ | tCO2e | A | B | C | D | Dd | Dx | E | R_B | R_D |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1.0 | 9.67 | 2.90 | 341.2 | 396.0 | 249.1 | 235.1 | 269.0 | 193.1 | 429.0 | 0.624 | −1.208 |
+| 1.1 | 10.64 | 3.19 | 389.3 | 549.8 | 241.3 | 213.8 | 249.7 | 159.8 | 488.7 | 1.615 | −1.765 |
+| 1.2 | 11.60 | 3.48 | 439.0 | 684.7 | 235.0 | 196.1 | 216.5 | 135.5 | 546.9 | 2.277 | −2.251 |
+| 1.3 | 12.57 | 3.77 | 490.5 | 676.4 | 228.9 | 181.9 | 188.9 | 117.4 | 606.9 | 1.596 | −2.649 |
+| 1.4 | 13.54 | 4.06 | 543.5 | 662.9 | 222.6 | 170.0 | 165.9 | 103.5 | 669.1 | 0.951 | −2.972 |
+| 1.5 | 14.50 | 4.35 | 597.9 | 649.0 | 216.1 | 159.8 | 145.7 | 92.4 | 733.4 | 0.377 | −3.234 |
+
+tCO2e uses 0.12 kgCO2e/kg (band 0.063–0.149), A1–A3, no reinforcement.
+
+### Lateral acceleration
+
+Same recorded V60 designs. E was not optimised again. The order at 0.15 g, 0.20 g and 0.30 g is E, B, A, Dd, C, D, Dx. [results/ah_h0.4.txt](results/ah_h0.4.txt).
+
+| Design | 0.15 g | 0.20 g | 0.30 g |
+|---|---:|---:|---:|
+| A | 348.65 | 341.21 | 327.04 |
+| B | 404.37 | 395.97 | 379.94 |
+| C | 254.48 | 249.13 | 238.85 |
+| D | 240.92 | 235.09 | 224.20 |
+| Dd | 275.15 | 268.96 | 257.02 |
+| Dx | 197.48 | 193.10 | 184.85 |
+| E | 439.43 | 429.02 | 408.83 |
+
+### Nonlinear check
+
+Governing value: the minimum over amplitude of the weaker sign. For these four designs that value is a limit point. [results/gnia_h0.4.txt](results/gnia_h0.4.txt).
 
 | Design | Amplitude | λ_GNIA | λ_GNIA / λ_LBA |
 |---|---|---:|---:|
@@ -70,7 +97,16 @@ pip install -e ".[test]"
 pytest -q
 ```
 
-**2. Check the record.** The linear factors at one volume are in [figures/table_variants_V60.csv](figures/table_variants_V60.csv). E is the `objective` in [results/E_best_d4_h0.4.json](results/E_best_d4_h0.4.json). The volume sweep is in [results/sweep_h0.4.txt](results/sweep_h0.4.txt). The nonlinear rows are in [results/gnia_h0.4.txt](results/gnia_h0.4.txt). The figure at the top is redrawn from the one-volume files by [scripts/readme_hero.py](scripts/readme_hero.py), and the plotted numbers are in [docs/img/hero.json](docs/img/hero.json).
+**2. Check the record.**
+
+| What | File |
+|---|---|
+| Linear factors at one volume | [figures/table_variants_V60.csv](figures/table_variants_V60.csv) |
+| E, the `objective` | [results/E_best_d4_h0.4.json](results/E_best_d4_h0.4.json) |
+| Volume sweep | [results/sweep_h0.4.txt](results/sweep_h0.4.txt) |
+| Nonlinear rows | [results/gnia_h0.4.txt](results/gnia_h0.4.txt) |
+| 0.15 g and 0.30 g | [results/ah_h0.4.txt](results/ah_h0.4.txt) |
+| Figure at the top | [scripts/readme_hero.py](scripts/readme_hero.py) writes [docs/img/hero.json](docs/img/hero.json) |
 
 **3. Full rerun** (optional, about 12 h on 16 threads):
 
@@ -82,35 +118,34 @@ python scripts/readme_hero.py  # the figure at the top of this page
 
 ## Method
 
-The shell is form-found under self-weight, 12 × 12 m in plan, rise 2.4 m, pinned on all four edges. The material is C30/37: E = 33 GPa, ν = 0.2, ρ = 2500 kg/m³, linear elastic and uncracked. The shell elements are S8R. Ribs are B32R beams with a positive offset, sharing nodes with the shell. CalculiX 2.23.
-
-Every design is built for the concrete volume of a uniform 60 mm shell, and the same comparison is repeated at 1.1 to 1.5 times that volume. For B to Dx the shell between the ribs is 50 mm, the rib width is 150 mm, and the rib depth is set so the volume matches. At the registered volume the meshed volume of B is 9.738 m³ against 9.669 m³ for the other designs ([results/variants_h0.4_r1.txt](results/variants_h0.4_r1.txt)). E varies the shell thickness by zone, between 40 mm and 150 mm, at the target volume.
-
-λ_c scales self-weight and the 0.2 g sway together. There is no preload. It is the minimum over the eight directions θ = 0°, 45°, …, 315° ([src/ribshell/fe.py](src/ribshell/fe.py)). λ_g scales self-weight alone.
-
 $$
 \lambda_c = \min_{\theta} \lambda(G + 0.2g \text{ at } \theta)
 $$
 
-Steps:
-
-1. Form-find the shell under self-weight and check the residual.
-2. Trace the ribs. B is an orthogonal grid. C follows gravity membrane-force lines. D follows principal-moment lines of the seismic envelope (12 lines at the study mesh). Dd is the eight-line diagonal trace of the same field on the h = 0.3 m mesh. Dx follows the moment lines of the +x case only.
-3. Set every design to the shared volume.
-4. Compute λ_c, the worst of the eight directions.
-5. Maximise λ_c for E with CMA-ES. The reported optimum is D4-symmetric, six variables. A free stage with 25 variables did not beat it.
-6. For A, C, D and E, scale mode 1 to L/300, L/500 and L/1000, both signs, and follow the path to a limit point. The weaker sign governs. A solver stop is not reported as a buckling load.
-
-| Design space | |
+| Item | Value |
 |---|---|
-| Shell | 12 × 12 m, rise 2.4 m, pinned edges, C30/37 |
-| Volume | One volume, that of a uniform 60 mm shell |
-| Directions | 0° to 315° in steps of 45°. λ_c is the minimum |
-| Imperfection | Mode 1, amplitudes L/300, L/500, L/1000, both signs |
+| Shell | Form-found under self-weight, 12 × 12 m, rise 2.4 m, pinned edges |
+| Material | C30/37, E = 33 GPa, ν = 0.2, ρ = 2500 kg/m³, linear elastic, uncracked |
+| Elements | S8R shells. Ribs are B32R beams, positive offset, nodes shared with the shell. CalculiX 2.23 |
+| λ_c | Self-weight and 0.2 g scaled together. No preload. Minimum over θ = 0°, 45°, …, 315°. Code: [src/ribshell/fe.py](src/ribshell/fe.py) |
+| λ_g | Self-weight alone |
+| Volume | Uniform 60 mm shell, then 1.1 to 1.5 times that volume |
+| Ribs B–Dx | 50 mm shell, rib width 150 mm, depth set to the volume. At V60, B is 9.738 m³ and the others are 9.669 m³ ([results/variants_h0.4_r1.txt](results/variants_h0.4_r1.txt)) |
+| E | Zone thickness 40 mm to 150 mm, at the target volume. Reported optimum: D4, six variables. A 25-variable stage did not beat it |
+| Imperfection | Mode 1 at L/300, L/500 and L/1000, both signs. The weaker sign governs. A solver stop is not a buckling load |
+
+| Step | What |
+|---|---|
+| 1 | Form-find under self-weight and check the residual |
+| 2 | Trace the ribs. B orthogonal grid. C gravity membrane-force lines. D seismic-envelope moment lines, 12 lines. Dd the eight-line diagonal trace on the h = 0.3 m mesh. Dx the +x case only |
+| 3 | Set every design to the shared volume |
+| 4 | Compute λ_c, the worst of the eight directions |
+| 5 | Maximise λ_c for E with CMA-ES |
+| 6 | For A, C, D and E, follow the imperfect path to a limit point |
 
 ## Figures
 
-[layouts.png](figures/layouts.png) is drawn by [study/s01_fields_layouts.py](study/s01_fields_layouts.py). The others are drawn from `results/` by [study/s06_figures.py](study/s06_figures.py). Where a panel title rounds a factor to one decimal, the file value is the one in the table above.
+[layouts.png](figures/layouts.png) is drawn by [study/s01_fields_layouts.py](study/s01_fields_layouts.py). The others are drawn from `results/` by [study/s06_figures.py](study/s06_figures.py). Where a panel title rounds a factor, the file value is the one in the table above.
 
 | λ_c against volume | Recovery of E's gain |
 |---|---|
@@ -124,7 +159,12 @@ Steps:
 
 <img src="figures/render_D_below.png" alt="Design D seen from below: a 50 mm shell with sway-envelope ribs.">
 
-*Design D from below: a 50 mm shell and the sway-envelope ribs. Layouts B, C, D and Dx are in the layout figure; Dd, the eight-line trace, is not drawn there. Zone thickness in the file runs from 0.040 m to 0.080629 m. The volume figure and the recovery figure are drawn from `results/sweep_h0.4.json`. The nonlinear figure is drawn from `results/gnia_h0.4.json`. The other panels use `results/layouts.json`, `results/modes_h0.4.npz`, `results/E_best_d4_h0.4.json`, `results/E_best_free_h0.4.json` and `results/variants_h0.4_r1.json`.*
+| View | What it shows | Data |
+|---|---|---|
+| Design D from below | 50 mm shell and the sway-envelope ribs. Dd, the eight-line trace, is not in the layout figure | `results/layouts.json` |
+| Volume and recovery | λ_c and recovery from 1.0 to 1.5 times V60 | `results/sweep_h0.4.json` |
+| Nonlinear paths | Weaker sign and the knockdown | `results/gnia_h0.4.json` |
+| Modes, thickness, direction | Mode 1, zone thickness 0.040 m to 0.080629 m, λ_c by angle | `results/modes_h0.4.npz`, `results/E_best_d4_h0.4.json`, `results/E_best_free_h0.4.json`, `results/variants_h0.4_r1.json` |
 
 ## Validation
 
@@ -162,7 +202,7 @@ The checks below were run before the study results were used. Outputs are in [ve
 stress-line-ribs-shell-buckling/
 ├── src/ribshell/     form finding, layouts, mesh, CalculiX decks, zonal thickness, nonlinear check
 ├── src/cecore/       CalculiX environment, vendored so a clone installs on its own
-├── study/            s01 layouts through s07 exports
+├── study/            s01 layouts through s08 lateral acceleration
 ├── scripts/          readme_hero.py, the figure at the top of this page
 ├── verify/           benchmark checks, outputs in verify/out/
 ├── tests/            pytest, run in CI on every push
