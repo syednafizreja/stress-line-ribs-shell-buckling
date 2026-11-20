@@ -4,12 +4,16 @@ How much buckling capacity does a buildable rib layout give up? At one concrete 
 
 [![Tests](https://github.com/syednafizreja/stress-line-ribs-shell-buckling/actions/workflows/tests.yml/badge.svg)](https://github.com/syednafizreja/stress-line-ribs-shell-buckling/actions/workflows/tests.yml)
 
-[Key finding](#key-finding) | [Check it](#check-it-in-three-steps) | [Method](#method) | [Figures](#figures) | [Validation](#validation) | [Scope](docs/scope.md) | [Cite](#citation)
+[Key finding](#key-finding) | [Check it](#check-it-in-three-steps) | [Method](#method) | [Figures](#figures) | [Validation](#validation) | [Scope](docs/scope.md) | [About](#about)
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/img/hero_dark.png">
   <img alt="Two bar charts on the same scale, bars starting at zero. Left, linear buckling factor: uniform shell 341.21, orthogonal grid 395.97, gravity lines 249.13, seismic envelope 235.09, eight diagonals 268.96, plus-x lines 193.10, optimised thickness 429.0206. Right, governing nonlinear factor: 118.20, 91.30, 89.77 and 135.96. A dashed line marks the uniform shell on each panel." src="docs/img/hero_light.png">
 </picture>
+
+| Against the plain shell, one volume | Orthogonal grid | Optimised thickness | Stress-line ribs (D) |
+|---|---:|---:|---:|
+| Linear buckling | +16.05 % | +25.74 % | −31.10 % |
 
 ## Key finding
 
@@ -193,7 +197,6 @@ The checks below were run before the study results were used. Outputs are in [ve
 | The technical report | [report/report.md](report/report.md) |
 | IFC4 and DXF | [exports/](exports/) |
 | Sources named in the study | [references.md](references.md) |
-| Use of AI assistance | [docs/ai_use.md](docs/ai_use.md) |
 
 <details>
 <summary><b>Repository layout</b></summary>
@@ -230,6 +233,14 @@ There is no archived release of this repository yet. Please cite the code and th
 
 Machine-readable metadata: [CITATION.cff](CITATION.cff).
 
-## Author and licence
+## About
 
-Syed Nafiz Reja Hasib · [ORCID 0009-0002-7162-7890](https://orcid.org/0009-0002-7162-7890) · Code: MIT ([LICENSE](LICENSE))
+Syed Nafiz Reja Hasib, civil and structural engineer. [ORCID 0009-0002-7162-7890](https://orcid.org/0009-0002-7162-7890).
+
+This repository is one comparison. A 12 × 12 m form-found shell, rise 2.4 m, carries its self-weight and a 0.2 g sway. Seven layouts share one concrete volume. The question and the hypothesis were fixed on 10 Nov 2026, before any result. Every number on this page is taken from a file named beside it.
+
+The same kind of record is in [ShellForm](https://github.com/syednafizreja/ShellForm) and [ShellBench](https://github.com/syednafizreja/ShellBench). A short account of the studies is on the [personal site](https://syednafizreja.github.io/about/).
+
+## Licence
+
+Code: MIT ([LICENSE](LICENSE)).
