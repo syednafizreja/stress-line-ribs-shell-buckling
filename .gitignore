@@ -8,3 +8,13 @@ spooles.out
 results/*/
 verify/out/*.tmp
 *.egg-info/
+
+paper/figures/preview/
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz

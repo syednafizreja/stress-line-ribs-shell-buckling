@@ -1,0 +1,14 @@
+Title: Buckling and Imperfection Sensitivity of Equal-Volume Form-Found Thin Concrete Shells: Stress-Line Ribs versus Optimised Thickness Distribution
+
+Author: Syed Nafiz Reja Hasib
+ORCID: 0009-0002-7162-7890
+
+Resource type: Publication / Preprint
+License: CC-BY-4.0
+
+Repository: https://github.com/syednafizreja/stress-line-ribs-shell-buckling
+
+Keywords: shell buckling; geometric imperfection; stress-line ribs; form-finding; equal-volume design; thickness optimisation
+
+Abstract:
+Thin concrete shells are of interest for low-carbon roofs because membrane action covers a span with little material. Principal stress-line ribs are a direct way to place spare material, on the argument that a rib should follow the force. This note tests that argument at constant volume, including a mode-1 geometric imperfection. The shell is a 12 m square of rise 2.4 m, form-found under self-weight by a force-density network and analysed in CalculiX 2.23. The shared volume is that of a uniform 60 mm shell, 9.669 m³. Seven layouts are compared under self-weight plus a 0.2g lateral body force: the uniform shell, an orthogonal grid, three stress-line rib sets, a one-way moment-line set, and a thickness field optimised for the linear buckling factor. The Scordelis–Lo roof and the Zoelly cap are recovered to −0.16% and +0.86%. Moment stress-line ribs lose 31.10% of the uniform shell's linear buckling factor. Optimised thickness gains 25.74% on that linear factor and 15.03% on the governing imperfect factor, where 15.03% rounds the two-decimal ratio (135.96−118.20)/118.20. The ribs do not cross, and their volume is taken from the shell. The material model is linear-elastic and uncracked.
